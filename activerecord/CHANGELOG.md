@@ -461,4 +461,22 @@
 
     *Yves Senn*
 
+*   Fix wrong size result after built has_and_belongs_to_many association and
+    kept the assciation unloaded. GH#14914, #14913
+
+        class User < ActiveRecord::Base
+            has_and_belongs_to_many :comments
+        end
+
+        class Comment < ActiveRecord::Base
+            has_and_belongs_to_many :users
+        end
+
+        user = User.create
+        user.comments.build
+
+        user.comments.size                  # should be 1
+
+    *Xiang Li*    
+
 Please check [4-1-stable](https://github.com/rails/rails/blob/4-1-stable/activerecord/CHANGELOG.md) for previous changes.

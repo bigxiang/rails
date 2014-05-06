@@ -12,20 +12,6 @@ module ActiveRecord
         @through_association = nil
       end
 
-      # Returns the size of the collection by executing a SELECT COUNT(*) query if the collection hasn't been
-      # loaded and calling collection.size if it has. If it's more likely than not that the collection does
-      # have a size larger than zero, and you need to fetch that collection afterwards, it'll take one fewer
-      # SELECT query if you use #length.
-      def size
-        if has_cached_counter?
-          owner.read_attribute cached_counter_attribute_name(reflection)
-        elsif loaded?
-          target.size
-        else
-          count
-        end
-      end
-
       def concat(*records)
         unless owner.new_record?
           records.flatten.each do |record|
